@@ -13,10 +13,6 @@ export default async function Page() {
                 Dashboard
             </h1>
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-                {/* <Card title='Collected' value={cardData.totalPaidInvoices} type='collected' />
-                <Card title='Pending' value={cardData.totalPendingInvoices} type='pending' />
-                <Card title='Total Invoices' value={cardData.numberOfInvoices} type='invoices' />
-                <Card title='Total Customers' value={cardData.numberOfCustomers} type='customers'/> */}
                 <Suspense fallback={<CardsSkeleton />}>
                     <CardWrapper />
                 </Suspense>
