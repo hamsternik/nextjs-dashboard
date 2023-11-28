@@ -147,8 +147,7 @@ export async function fetchInvoicesPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of invoices.');
-  }
-}
+  }}
 
 export async function fetchInvoiceById(id: string) {
   noStore();
@@ -169,6 +168,7 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
 
+    console.log(invoice); // Invoice is as empty array []
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);

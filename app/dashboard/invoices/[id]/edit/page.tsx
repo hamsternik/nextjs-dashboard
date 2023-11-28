@@ -1,6 +1,7 @@
 import EditInvoiceForm from "@/app/ui/invoices/edit-form";
 import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
 import { fetchCustomers, fetchInvoiceById } from "@/app/lib/data";
+import { notFound } from "next/navigation";
 
 export default async function Page({ params }: {
     params: {id: string}
@@ -10,6 +11,11 @@ export default async function Page({ params }: {
         fetchInvoiceById(paramsId),
         fetchCustomers(),
     ])
+
+    if (!invoice) {
+      notFound();
+    }
+
     // const { amount, id, customerId, status } = invoice
     const id = invoice?.id
     const customerId = invoice?.customer_id
