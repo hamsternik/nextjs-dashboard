@@ -4,6 +4,36 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
+
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+) {
+    try {
+        console.log(">>>> before")
+        const user = await signIn('credentials', formData);
+
+        console.log("TODO: signIn function does not return anything and the next line won't be called.")
+        // I think, the problem that /login-form.tsx is actually a client-component 
+        // which's using server action (asynchronous). Found this topic in nextjs repo
+        // https://github.com/vercel/next.js/issues/49232#issuecomment-1636827999
+        console.log(`user ${JSON.stringify(user)}`)
+        console.log('>>> get into dispatch, after signIn')
+    } catch (error) {
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case 'CredentialsSignin':
+                    return 'Invalid credentials.';
+                default:
+                    return 'Something went wrong.';
+            }
+        }
+        throw error;
+    }
+}
+
 const FormSchema = z.object({
     id: z.string(),
     customerId: z.string({
